@@ -23,3 +23,7 @@ A fullstack web-application test using Spring Boot, React and Postgresql with a 
    - AWS Elastic Beanstalk
    - Docker
    - _Soon GitHub Actions_
+   
+# Architecture
+
+![FullstackReactArchitecture](https://user-images.githubusercontent.com/61289714/197356819-b70f66c5-1c02-4aba-80ea-9dcc7efea1a4.png)
