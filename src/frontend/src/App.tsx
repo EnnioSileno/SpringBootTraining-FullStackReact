@@ -5,8 +5,9 @@ import {
 	TeamOutlined,
 	UserOutlined,
 	LoadingOutlined,
+	PlusOutlined,
 } from '@ant-design/icons';
-import { Empty, MenuProps, Table } from 'antd';
+import { Button, Empty, MenuProps, Table } from 'antd';
 import { Breadcrumb, Layout, Menu, Spin } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -109,7 +110,10 @@ const App: React.FC = (): any => {
 			columns={columns}
 			dataSource={students}
 			bordered
-			title={() => 'Students'}
+			title={() =>
+			<Button type="primary" icon={<PlusOutlined />} size={"small"}>
+				Add New Student
+		  	</Button>}
 			pagination={{ pageSize: 50}}
 			scroll={{ y:240 }}
 			rowKey={(student) => student.id }
