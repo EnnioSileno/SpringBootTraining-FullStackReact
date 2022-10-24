@@ -17,3 +17,13 @@ const checkStatus = (response: IUnfetchResponse): Promise<IUnfetchResponse | nev
 export const getAllStudents = (): Promise<IUnfetchResponse | never> =>
     fetch('api/v1/students')
         .then(checkStatus);
+
+export const addNewStudent = (student: any) =>
+    fetch('api/v1/students', {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(student)
+        }
+    );

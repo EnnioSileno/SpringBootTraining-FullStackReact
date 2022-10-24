@@ -78,6 +78,12 @@ const App: React.FC = (): any => {
 	const [showDrawer, setShowDrawer] = useState<boolean>(false);
 	const hasToFetchTheFirstTime = useRef(true);
 
+	const addStudentButton = <Button
+		onClick={() => setShowDrawer(!showDrawer)}
+		type="primary" icon={<PlusOutlined />} size={"small"}>
+		Add New Student
+	</Button>
+
 	const fetchStudents = () => {
 		getAllStudents()
 			.then((response: IUnfetchResponse) => {
@@ -105,28 +111,28 @@ const App: React.FC = (): any => {
 		if(isFetching) {
 			return <Spin indicator={antIcon} />;
 		}
-		if(students.length <= 0) {
-			return <Empty />;
-		}
 		return <>
 			<StudentDrawerForm 
 				showDrawer={showDrawer}
 				setShowDrawer={setShowDrawer}
+				fetchStudents={fetchStudents}
 			/>
-			<Table
-				columns={columns}
-				dataSource={students}
-				bordered
-				title={() =>
-				<Button
-					onClick={() => setShowDrawer(!showDrawer)}
-					type="primary" icon={<PlusOutlined />} size={"small"}>
-					Add New Student
-				</Button>}
-				pagination={{ pageSize: 50}}
-				scroll={{ y:240 }}
-				rowKey={(student) => student.id }
-			/>
+			{students.length <= 0 ?
+				(<>
+						{addStudentButton}
+						<Empty />
+				</>)
+			:
+				(<Table
+					columns={columns}
+					dataSource={students}
+					bordered
+					title={() => addStudentButton } 
+					pagination={{ pageSize: 50}}
+					scroll={{y: '50vh' }}
+					rowKey={(student) => student.id }
+				/>)
+			}
 		</>
 	}
 
@@ -143,7 +149,7 @@ const App: React.FC = (): any => {
 				<Breadcrumb.Item>User</Breadcrumb.Item>
 				<Breadcrumb.Item>Bill</Breadcrumb.Item>
 			  </Breadcrumb>
-			  <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+			  <div className="site-layout-background" style={{ padding: 24, minHeight: '75vh' }}>
 				{renderStudents()}
 			  </div>
 			</Content>

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Drawer,
     Input, 
@@ -7,24 +7,37 @@ import {
     Select, 
     Form, 
     Row, 
-    Button
+    Button,
+    Spin
 } from 'antd';
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
-
+import { addNewStudent } from '../client';
+import { LoadingOutlined } from '@ant-design/icons';
 
 type Props = {
     showDrawer: boolean,
-    setShowDrawer: React.Dispatch<React.SetStateAction<boolean>>
+    setShowDrawer: React.Dispatch<React.SetStateAction<boolean>>,
+    fetchStudents: () => void,
 }
 
-
 const {Option} = Select;
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-function StudentDrawerForm({showDrawer, setShowDrawer}: Props): JSX.Element {
+const StudentDrawerForm = ({showDrawer, setShowDrawer, fetchStudents}: Props): JSX.Element => {
+const [submitting, setSubmitting] = useState<boolean>(false);
+
     const onCLose = (): void => setShowDrawer(false);
 
-    const onFinish = (values: any) => {
-        alert(JSON.stringify(values, null, 2));
+    const onFinish = (student: any) => {
+        setSubmitting(true);
+        console.log(JSON.stringify(student, null, 2))
+        addNewStudent(student)
+            .then(() => {
+                console.log('student added');
+                fetchStudents();
+                onCLose();
+            }).catch(console.log)
+            .finally(() => setSubmitting(false));
     };
 
     const onFinishFailed = (errorInfo: ValidateErrorEntity<any>) => {
@@ -35,7 +48,7 @@ function StudentDrawerForm({showDrawer, setShowDrawer}: Props): JSX.Element {
         title="Create new student"
         width={720}
         onClose={onCLose}
-        visible={showDrawer}
+        open={showDrawer}
         bodyStyle={{paddingBottom: 80}}
         footer={
             <div
@@ -52,7 +65,8 @@ function StudentDrawerForm({showDrawer, setShowDrawer}: Props): JSX.Element {
         <Form layout="vertical"
               onFinishFailed={onFinishFailed}
               onFinish={onFinish}
-              hideRequiredMark>
+              requiredMark={true}
+        >
             <Row gutter={16}>
                 <Col span={12}>
                     <Form.Item
@@ -77,7 +91,7 @@ function StudentDrawerForm({showDrawer, setShowDrawer}: Props): JSX.Element {
                 <Col span={12}>
                     <Form.Item
                         name="gender"
-                        label="gender"
+                        label="Gender"
                         rules={[{required: true, message: 'Please select a gender'}]}
                     >
                         <Select placeholder="Please select a gender">
@@ -96,6 +110,9 @@ function StudentDrawerForm({showDrawer, setShowDrawer}: Props): JSX.Element {
                         </Button>
                     </Form.Item>
                 </Col>
+            </Row>
+            <Row>
+                {submitting && <Spin indicator={antIcon} />}
             </Row>
         </Form>
     </Drawer>
