@@ -7,7 +7,7 @@ import {
 	LoadingOutlined,
 	PlusOutlined,
 } from '@ant-design/icons';
-import { Badge, Button, Empty, MenuProps, Table, Tag } from 'antd';
+import { Avatar, Badge, Button, Empty, MenuProps, Table, Tag } from 'antd';
 import { Breadcrumb, Layout, Menu, Spin } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -20,7 +20,28 @@ const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
+const TheAvatar: React.FC<any> = ({studentName}): JSX.Element => {
+	let nameString = String(studentName);
+	let trim: string = nameString.trim();
+	if (trim.length === 0) {
+		return <Avatar icon={<UserOutlined />} />
+	}
+	const split = trim.split(" ");
+	if(split.length === 1) {
+		return <Avatar>{nameString.charAt(0)}</Avatar>
+	}
+	return <Avatar>
+				{`${nameString.charAt(0)}${nameString.charAt(nameString.length-1)}`}
+			</Avatar>
+}
+
 const columns = [
+	{
+		title: '',
+		dataIndex: 'avatar',
+		key: 'avatar',
+		render: (text: any, student: IStudent) => <TheAvatar studentName={student.name} />
+	},
 	{
 		title: 'Id',
 		dataIndex: 'id',
