@@ -13,6 +13,7 @@ import {
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import { addNewStudent } from '../client';
 import { LoadingOutlined } from '@ant-design/icons';
+import { successNotification, errorNotification } from './notification';
 
 type Props = {
     showDrawer: boolean,
@@ -36,6 +37,8 @@ const [submitting, setSubmitting] = useState<boolean>(false);
                 console.log('student added');
                 fetchStudents();
                 onCLose();
+                successNotification('Student successfully added',
+                `${student.name} was added to the system`);
             }).catch(console.log)
             .finally(() => setSubmitting(false));
     };
