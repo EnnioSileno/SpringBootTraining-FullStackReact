@@ -8,8 +8,8 @@ A fullstack web-application test using Spring Boot, React and Postgresql with a 
  - Spring Boot
  - Spring Web
  - Project Lombok
- - _Soon Spring Data JPA_
- - _Soon PostgreSQL Driver_
+ - Spring Data JPA
+ - Soon PostgreSQL Driver
  
  ### Database
   - PostgreSQL
