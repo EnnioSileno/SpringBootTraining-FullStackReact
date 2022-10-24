@@ -14,4 +14,9 @@ public class StudentService {
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
+
+    public void addStudent(Student student) {
+        //TODO check if email is already taken
+        studentRepository.save(student);
+    }
 }
