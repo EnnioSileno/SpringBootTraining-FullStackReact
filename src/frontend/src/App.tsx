@@ -14,6 +14,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { getAllStudents } from './client';
 import { IStudent, IUnfetchError, IUnfetchResponse } from './interfaces';
 import './App.css';
+import StudentDrawerForm from './components/studentDrawerForm';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -74,6 +75,7 @@ const App: React.FC = (): any => {
 	const [students, setStudents] = useState<IStudent[]>([]);
 	const [collapsed, setCollapsed] = useState<boolean>(false);
 	const [isFetching, setIsFetching] = useState<boolean>(true);
+	const [showDrawer, setShowDrawer] = useState<boolean>(false);
 	const hasToFetchTheFirstTime = useRef(true);
 
 	const fetchStudents = () => {
@@ -106,18 +108,26 @@ const App: React.FC = (): any => {
 		if(students.length <= 0) {
 			return <Empty />;
 		}
-		return <Table
-			columns={columns}
-			dataSource={students}
-			bordered
-			title={() =>
-			<Button type="primary" icon={<PlusOutlined />} size={"small"}>
-				Add New Student
-		  	</Button>}
-			pagination={{ pageSize: 50}}
-			scroll={{ y:240 }}
-			rowKey={(student) => student.id }
-		/>
+		return <>
+			<StudentDrawerForm 
+				showDrawer={showDrawer}
+				setShowDrawer={setShowDrawer}
+			/>
+			<Table
+				columns={columns}
+				dataSource={students}
+				bordered
+				title={() =>
+				<Button
+					onClick={() => setShowDrawer(!showDrawer)}
+					type="primary" icon={<PlusOutlined />} size={"small"}>
+					Add New Student
+				</Button>}
+				pagination={{ pageSize: 50}}
+				scroll={{ y:240 }}
+				rowKey={(student) => student.id }
+			/>
+		</>
 	}
 
 	return (
