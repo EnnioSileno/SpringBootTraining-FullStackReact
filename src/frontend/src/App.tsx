@@ -7,7 +7,7 @@ import {
 	LoadingOutlined,
 	PlusOutlined,
 } from '@ant-design/icons';
-import { Button, Empty, MenuProps, Table } from 'antd';
+import { Badge, Button, Empty, MenuProps, Table, Tag } from 'antd';
 import { Breadcrumb, Layout, Menu, Spin } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -123,15 +123,25 @@ const App: React.FC = (): any => {
 						<Empty />
 				</>)
 			:
-				(<Table
+				(<>
+				<Table
 					columns={columns}
 					dataSource={students}
 					bordered
-					title={() => addStudentButton } 
+					title={() => (
+							<>
+								<Tag>Number of students</Tag>
+								<Badge count={students.length} className="site-badge-count-4"/>
+								<br></br><br></br>
+								{addStudentButton}
+							</>
+						)
+					} 
 					pagination={{ pageSize: 50}}
 					scroll={{y: '50vh' }}
 					rowKey={(student) => student.id }
-				/>)
+				/>
+				</>)
 			}
 		</>
 	}

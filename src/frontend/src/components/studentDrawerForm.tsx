@@ -13,7 +13,7 @@ import {
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import { addNewStudent } from '../client';
 import { LoadingOutlined } from '@ant-design/icons';
-import { successNotification, errorNotification } from './notification';
+import { successNotification } from './notification';
 
 type Props = {
     showDrawer: boolean,
