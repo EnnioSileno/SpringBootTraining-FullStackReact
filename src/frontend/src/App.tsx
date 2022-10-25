@@ -11,11 +11,12 @@ import { Avatar, Badge, Button, Empty, MenuProps, Table, Tag } from 'antd';
 import { Breadcrumb, Layout, Menu, Spin } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { getAllStudents } from './client';
+import { deleteStudent, getAllStudents } from './client';
 import { IStudent, IUnfetchError, IUnfetchResponse } from './interfaces';
 import './App.css';
 import StudentDrawerForm from './components/studentDrawerForm';
 import ButtonGroupDeleteEdit from './components/buttonGroupDeleteEdit';
+import { successNotification } from './components/notification';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -36,11 +37,17 @@ const TheAvatar: React.FC<any> = ({studentName}): JSX.Element => {
 			</Avatar>
 }
 
-const onDeleteStudent = (student: IStudent) => {
-	console.log(`${student.name} deleted`);
+const onDeleteStudent = (student: IStudent, callback: () => void) => {
+	deleteStudent(student.id)
+		.then(() => {
+			console.log(`${student.name} deleted`);
+			successNotification('Student successfully deleted',
+			`${student.name} was deleted from the system`);
+			callback();
+		})
 }
 
-const columns = [
+const columns = (fetchStudents: () => void) => [
 	{
 		title: '',
 		dataIndex: 'avatar',
@@ -73,7 +80,7 @@ const columns = [
 		key: 'actions',
 		render: (text: any, student: IStudent) => <ButtonGroupDeleteEdit
 											deletionText={`Are you sure to delete ${student.name}`}
-											handleDelete={() => onDeleteStudent(student)}
+											handleDelete={() => onDeleteStudent(student, fetchStudents)}
 											handleEdit={() => console.log('Edit clicked')}
 										/>
 	},
@@ -161,7 +168,7 @@ const App: React.FC = (): any => {
 			:
 				(<>
 				<Table
-					columns={columns}
+					columns={columns(fetchStudents)}
 					dataSource={students}
 					bordered
 					title={() => (
