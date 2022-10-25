@@ -15,6 +15,7 @@ import { getAllStudents } from './client';
 import { IStudent, IUnfetchError, IUnfetchResponse } from './interfaces';
 import './App.css';
 import StudentDrawerForm from './components/studentDrawerForm';
+import ButtonGroupDeleteEdit from './components/buttonGroupDeleteEdit';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -61,6 +62,12 @@ const columns = [
 		title: 'Gender',
 		dataIndex: 'gender',
 		key: 'gender',
+	},
+	{
+		title: 'Actions',
+		dataIndex: 'actions',
+		key: 'actions',
+		render: () => <ButtonGroupDeleteEdit />
 	},
 ];
 

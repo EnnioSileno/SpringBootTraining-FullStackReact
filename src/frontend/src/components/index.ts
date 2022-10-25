@@ -1,3 +1,4 @@
 import StudentDrawerForm from "./studentDrawerForm";
+import ButtonGroupDeleteEdit from "./buttonGroupDeleteEdit"
 
-export default { StudentDrawerForm }
+export default { StudentDrawerForm, ButtonGroupDeleteEdit }
