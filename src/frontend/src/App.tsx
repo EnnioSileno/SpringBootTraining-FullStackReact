@@ -37,7 +37,7 @@ const TheAvatar: React.FC<any> = ({studentName}): JSX.Element => {
 }
 
 const onDeleteStudent = (student: IStudent) => {
-	console.log(`Delete student with name: ${student.name}`);
+	console.log(`${student.name} deleted`);
 }
 
 const columns = [
@@ -72,8 +72,9 @@ const columns = [
 		dataIndex: 'actions',
 		key: 'actions',
 		render: (text: any, student: IStudent) => <ButtonGroupDeleteEdit
-											 handleDelete={() => onDeleteStudent(student)}
-											 handleEdit={() => console.log('Edit clicked')}
+											deletionText={`Are you sure to delete ${student.name}`}
+											handleDelete={() => onDeleteStudent(student)}
+											handleEdit={() => console.log('Edit clicked')}
 										/>
 	},
 ];
