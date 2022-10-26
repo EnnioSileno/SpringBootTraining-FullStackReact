@@ -1,5 +1,6 @@
 package ch.ennio.sileno.tutorial.fullstack.student;
 
+import ch.ennio.sileno.tutorial.fullstack.student.exception.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,13 @@ public class StudentService {
     }
 
     public void addStudent(Student student) {
-        //TODO check if email is already taken
+        Boolean emailAlreadyInUse = studentRepository.
+                selectExistsEmail(student.getEmail());
+        if(emailAlreadyInUse) {
+            throw new BadRequestException(
+                    "Email " + student.getEmail() + " is already taken"
+            );
+        }
         studentRepository.save(student);
     }
 
