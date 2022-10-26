@@ -2,6 +2,8 @@ import fetch from 'unfetch';
 import { IUnfetchResponse, IUnfetchError } from './interfaces';
 
 const checkStatus = (response: IUnfetchResponse): Promise<IUnfetchResponse | never> => {
+    console.log('check status');
+    console.log(response);
     if(response.ok) {
         return Promise.resolve(response);
     }
@@ -26,10 +28,10 @@ export const addNewStudent = (student: any) =>
             method: 'POST',
             body: JSON.stringify(student)
         }
-    );
+    ).then(checkStatus);
 
 export const deleteStudent = (studentID: number) => 
         fetch(`api/v1/students/${studentID}`, {
             method: 'DELETE'
         })
-        .then(checkStatus)
+        .then(checkStatus);

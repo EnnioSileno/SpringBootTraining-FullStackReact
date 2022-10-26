@@ -13,7 +13,8 @@ import {
 import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import { addNewStudent } from '../client';
 import { LoadingOutlined } from '@ant-design/icons';
-import { successNotification } from './notification';
+import { errorNotification, successNotification } from './notification';
+import { IUnfetchError, IUnfetchResponse } from '../interfaces';
 
 type Props = {
     showDrawer: boolean,
@@ -33,13 +34,20 @@ const [submitting, setSubmitting] = useState<boolean>(false);
         setSubmitting(true);
         console.log(JSON.stringify(student, null, 2))
         addNewStudent(student)
-            .then(() => {
+            .then((result: IUnfetchResponse) => {
+                console.log(result);
                 console.log('student added');
                 fetchStudents();
                 onCLose();
                 successNotification('Student successfully added',
                 `${student.name} was added to the system`);
-            }).catch(console.log)
+            }).catch((reason: IUnfetchError) => {
+				reason.errorObject.json().then(res => {
+					console.log(res);
+					errorNotification("There was an issue", 
+						`${res.message} [${res.status}] [${res.error}]`);
+				});
+			})
             .finally(() => setSubmitting(false));
     };
 

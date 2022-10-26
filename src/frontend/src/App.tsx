@@ -22,19 +22,19 @@ const { Header, Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
-const TheAvatar: React.FC<any> = ({studentName}): JSX.Element => {
+const TheAvatar: React.FC<any> = ({ studentName }): JSX.Element => {
 	let nameString = String(studentName);
 	let trim: string = nameString.trim();
 	if (trim.length === 0) {
 		return <Avatar icon={<UserOutlined />} />
 	}
 	const split = trim.split(" ");
-	if(split.length === 1) {
+	if (split.length === 1) {
 		return <Avatar>{nameString.charAt(0)}</Avatar>
 	}
 	return <Avatar>
-				{`${nameString.charAt(0)}${nameString.charAt(nameString.length-1)}`}
-			</Avatar>
+		{`${nameString.charAt(0)}${nameString.charAt(nameString.length - 1)}`}
+	</Avatar>
 }
 
 const onDeleteStudent = (student: IStudent, callback: () => void) => {
@@ -42,8 +42,14 @@ const onDeleteStudent = (student: IStudent, callback: () => void) => {
 		.then(() => {
 			console.log(`${student.name} deleted`);
 			successNotification('Student successfully deleted',
-			`${student.name} was deleted from the system`);
+				`${student.name} was deleted from the system`);
 			callback();
+		}).catch((reason: IUnfetchError) => {
+			reason.errorObject.json().then(res => {
+				console.log(res);
+				errorNotification("There was an issue",
+					`${res.message} [${res.status}] [${res.error}]`);
+			});
 		})
 }
 
@@ -79,10 +85,10 @@ const columns = (fetchStudents: () => void) => [
 		dataIndex: 'actions',
 		key: 'actions',
 		render: (text: any, student: IStudent) => <ButtonGroupDeleteEdit
-											deletionText={`Are you sure to delete ${student.name}`}
-											handleDelete={() => onDeleteStudent(student, fetchStudents)}
-											handleEdit={() => console.log('Edit clicked')}
-										/>
+			deletionText={`Are you sure to delete ${student.name}`}
+			handleDelete={() => onDeleteStudent(student, fetchStudents)}
+			handleEdit={() => console.log('Edit clicked')}
+		/>
 	},
 ];
 
@@ -139,7 +145,7 @@ const App: React.FC = (): any => {
 			.catch((reason: IUnfetchError) => {
 				reason.errorObject.json().then(res => {
 					console.log(res);
-					errorNotification("There was an issue", 
+					errorNotification("There was an issue",
 						`${res.message} [${res.status}] [${res.error}]`);
 				});
 			})
@@ -156,39 +162,39 @@ const App: React.FC = (): any => {
 	}, []);
 
 	const renderStudents = (): any => {
-		if(isFetching) {
+		if (isFetching) {
 			return <Spin indicator={antIcon} />;
 		}
 		return <>
-			<StudentDrawerForm 
+			<StudentDrawerForm
 				showDrawer={showDrawer}
 				setShowDrawer={setShowDrawer}
 				fetchStudents={fetchStudents}
 			/>
 			{students.length <= 0 ?
 				(<>
-						{addStudentButton}
-						<Empty />
+					{addStudentButton}
+					<Empty />
 				</>)
-			:
+				:
 				(<>
-				<Table
-					columns={columns(fetchStudents)}
-					dataSource={students}
-					bordered
-					title={() => (
+					<Table
+						columns={columns(fetchStudents)}
+						dataSource={students}
+						bordered
+						title={() => (
 							<>
 								<Tag>Number of students</Tag>
-								<Badge count={students.length} className="site-badge-count-4"/>
+								<Badge count={students.length} className="site-badge-count-4" />
 								<br></br><br></br>
 								{addStudentButton}
 							</>
 						)
-					} 
-					pagination={{ pageSize: 50}}
-					scroll={{y: '50vh' }}
-					rowKey={(student) => student.id }
-				/>
+						}
+						pagination={{ pageSize: 50 }}
+						scroll={{ y: '50vh' }}
+						rowKey={(student) => student.id}
+					/>
 				</>)
 			}
 		</>
@@ -196,25 +202,25 @@ const App: React.FC = (): any => {
 
 	return (
 		<Layout style={{ minHeight: '100vh' }}>
-		  <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
-			<div className="logo" />
-			<Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
-		  </Sider>
-		  <Layout className="site-layout">
-			<Header className="site-layout-background" style={{ padding: 0 }} />
-			<Content style={{ margin: '0 16px' }}>
-			  <Breadcrumb style={{ margin: '16px 0' }}>
-				<Breadcrumb.Item>User</Breadcrumb.Item>
-				<Breadcrumb.Item>Bill</Breadcrumb.Item>
-			  </Breadcrumb>
-			  <div className="site-layout-background" style={{ padding: 24, minHeight: '75vh' }}>
-				{renderStudents()}
-			  </div>
-			</Content>
-			<Footer style={{ textAlign: 'center' }}>By Ennio Sileno</Footer>
-		  </Layout>
+			<Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
+				<div className="logo" />
+				<Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+			</Sider>
+			<Layout className="site-layout">
+				<Header className="site-layout-background" style={{ padding: 0 }} />
+				<Content style={{ margin: '0 16px' }}>
+					<Breadcrumb style={{ margin: '16px 0' }}>
+						<Breadcrumb.Item>User</Breadcrumb.Item>
+						<Breadcrumb.Item>Bill</Breadcrumb.Item>
+					</Breadcrumb>
+					<div className="site-layout-background" style={{ padding: 24, minHeight: '75vh' }}>
+						{renderStudents()}
+					</div>
+				</Content>
+				<Footer style={{ textAlign: 'center' }}>By Ennio Sileno</Footer>
+			</Layout>
 		</Layout>
-	  );
+	);
 };
 
 export default App;
