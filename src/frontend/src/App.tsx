@@ -16,7 +16,7 @@ import { IStudent, IUnfetchError, IUnfetchResponse } from './interfaces';
 import './App.css';
 import StudentDrawerForm from './components/studentDrawerForm';
 import ButtonGroupDeleteEdit from './components/buttonGroupDeleteEdit';
-import { successNotification } from './components/notification';
+import { errorNotification, successNotification } from './components/notification';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -135,10 +135,15 @@ const App: React.FC = (): any => {
 			.then((students: IStudent[]) => {
 				console.log(students);
 				setStudents(students);
-				setIsFetching(false);
 			})
 			.catch((reason: IUnfetchError) => {
-				console.log(reason);
+				reason.errorObject.json().then(res => {
+					console.log(res);
+					errorNotification("There was an issue", 
+						`${res.message} [${res.status}] [${res.error}]`);
+				});
+			})
+			.finally(() => {
 				setIsFetching(false);
 			});
 	}

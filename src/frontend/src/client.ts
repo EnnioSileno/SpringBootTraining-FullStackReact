@@ -5,7 +5,7 @@ const checkStatus = (response: IUnfetchResponse): Promise<IUnfetchResponse | nev
     if(response.ok) {
         return Promise.resolve(response);
     }
-    //needs to create a reject manually bc an 404 for example is no recognized as a reject;
+    //needs to create a reject manually bc an non-2xx HHTP request is not recoginized automatically;
     //see https://www.npmjs.com/package/unfetch
     var error: IUnfetchError = {
         error: new Error(response.statusText),
