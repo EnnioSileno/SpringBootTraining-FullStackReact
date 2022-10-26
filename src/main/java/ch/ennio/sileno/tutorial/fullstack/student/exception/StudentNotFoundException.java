@@ -1,4 +1,12 @@
 package ch.ennio.sileno.tutorial.fullstack.student.exception;
 
-public class StudentNotFoundException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class StudentNotFoundException extends RuntimeException{
+
+    public StudentNotFoundException(String msg) {
+        super(msg);
+    }
 }

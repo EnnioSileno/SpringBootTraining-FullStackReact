@@ -1,6 +1,7 @@
 package ch.ennio.sileno.tutorial.fullstack.student;
 
 import ch.ennio.sileno.tutorial.fullstack.student.exception.BadRequestException;
+import ch.ennio.sileno.tutorial.fullstack.student.exception.StudentNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,11 @@ public class StudentService {
     }
 
     public void deleteStudent(Long studentId) {
-        //TODO check if student exists
+        if(!studentRepository.existsById(studentId)) {
+            throw new StudentNotFoundException(
+                    "Student with id: " + studentId + " does not exist"
+            );
+        }
         studentRepository.deleteById(studentId);
     }
 }
