@@ -7,4 +7,4 @@ services:
     restart: "always"
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      JASYPT_ENCRYPTOR_PASSWORD: 
+      JASYPT_ENCRYPTOR_PASSWORD: ${{ secrets.PROFILE_PRIVATE_KEY }}
