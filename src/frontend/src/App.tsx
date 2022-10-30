@@ -7,7 +7,16 @@ import {
 	LoadingOutlined,
 	PlusOutlined,
 } from '@ant-design/icons';
-import { Avatar, Badge, Button, Empty, MenuProps, Table, Tag } from 'antd';
+import {
+	Avatar,
+	Badge, 
+	Button, 
+	Divider, 
+	Empty, 
+	MenuProps, 
+	Table, 
+	Tag 
+} from 'antd';
 import { Breadcrumb, Layout, Menu, Spin } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -217,7 +226,17 @@ const App: React.FC = (): any => {
 						{renderStudents()}
 					</div>
 				</Content>
-				<Footer style={{ textAlign: 'center' }}>By Ennio Sileno</Footer>
+				<Footer style={{ textAlign: 'center' }}>
+					By Ennio Sileno
+					<Divider>
+						<a
+							href='https://github.com/EnnioSileno/SpringBootTraining-FullStackReact'
+							target='_blank'
+						>
+							Click here to access the Repository
+						</a>
+					</Divider>
+				</Footer>
 			</Layout>
 		</Layout>
 	);
