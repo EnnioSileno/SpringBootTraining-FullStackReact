@@ -232,8 +232,9 @@ const App: React.FC = (): any => {
 						<a
 							href='https://github.com/EnnioSileno/SpringBootTraining-FullStackReact'
 							target='_blank'
+							rel="noopener noreferrer"
 						>
-							Click here to access the Repository
+							Click here to see the Repository
 						</a>
 					</Divider>
 				</Footer>
