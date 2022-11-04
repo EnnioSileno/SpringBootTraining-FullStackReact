@@ -1,6 +1,7 @@
 package ch.ennio.sileno.tutorial.fullstack.student;
 
 import ch.ennio.sileno.tutorial.fullstack.student.exception.BadRequestException;
+import ch.ennio.sileno.tutorial.fullstack.student.exception.StudentNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -78,7 +79,30 @@ class StudentServiceTest {
     }
 
     @Test
-    @Disabled
-    void deleteStudent() {
+    void verifyDeleteStudent_WhenDeleteStudent_GivenStudentIdExistsInDB() {
+        // given
+        long id = 10;
+        given(studentRepository.existsById(id))
+                .willReturn(true);
+        // when
+        underTest.deleteStudent(id);
+
+        // then
+        verify(studentRepository).deleteById(id);
+    }
+
+    @Test
+    void shouldThrowException_WhenDeleteStudent_GivenStudentIdNotFound() {
+        // given
+        long id = 10;
+        given(studentRepository.existsById(id))
+                .willReturn(false);
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.deleteStudent(id))
+                .isInstanceOf(StudentNotFoundException.class)
+                .hasMessageContaining("Student with id: " + id + " does not exists");
+
+        verify(studentRepository, never()).deleteById(any());
     }
 }
