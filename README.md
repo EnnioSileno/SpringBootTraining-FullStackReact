@@ -24,7 +24,7 @@ A fullstack web-application using Spring Boot, React and Postgresql with a CI/CD
   ### Services
    - AWS Elastic Beanstalk
    - Docker
-   - Soon GitHub Actions
+   - GitHub Actions
    
 # Architecture & Deployment Process
 
