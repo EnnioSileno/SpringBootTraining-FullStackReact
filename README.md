@@ -31,7 +31,7 @@ A fullstack web-application using Spring Boot, React and Postgresql with a CI/CD
 ![Architektur drawio](https://user-images.githubusercontent.com/61289714/199301456-a093e0c7-9fd0-4ab8-9bcd-9595d6beaf65.png)
 ![AWS drawio](https://user-images.githubusercontent.com/61289714/199301465-53f35b81-33f0-4c97-a037-787884e64376.png)
 
-# Continuous Integration / ontinuous Delivery Process
+# Continuous Integration / continuous Delivery Process
 
 ![cicd drawio](https://user-images.githubusercontent.com/61289714/199301428-a971a091-9e30-40d7-bd6b-0ba1bfe59d6e.png)
 
